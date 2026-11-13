@@ -6,8 +6,6 @@ on:
   schedule:
     # 1st of every month at 07:00 Phoenix time (MST).
     - cron: '0 14 1 * *'
-    # Every day at 08:00 America/Phoenix for India OTT release refresh.
-    - cron: '0 15 * * *'
   workflow_dispatch:
 
 permissions:
@@ -61,14 +59,9 @@ jobs:
         working-directory: engine
         run: PYTHONPATH=. .venv/bin/python ../scripts/generate_phoenix.py
 
-      - name: Test and generate India OTT subscription
-        run: |
-          python -m unittest discover -s tests -p 'test_india_ott.py' -v
-          python scripts/generate_india_ott.py
-
       - name: Add calendar information page
         run: |
-          cp site/index.html site/personal.html site/personal.js site/ott.html _site/
+          cp site/index.html site/personal.html site/personal.js _site/
           touch _site/.nojekyll
 
       - name: Configure GitHub Pages
