@@ -113,6 +113,14 @@ function occurrences(event) {
   return result;
 }
 
+function todayInPhoenix() {
+  const fields = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Phoenix', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(new Date());
+  const value = type => fields.find(part => part.type === type).value;
+  return value('year') + '-' + value('month') + '-' + value('day');
+}
+
 function friendlyDate(isoDate) {
   const date = new Date(isoDate + 'T12:00:00Z');
   return new Intl.DateTimeFormat('en-US', {
@@ -147,7 +155,7 @@ function render() {
       'div', event.maasam + ' · ' + event.paksham + ' · ' + event.tithi + ' · ' + policy
     ));
     const found = occurrences(event);
-    const next = found.filter(item => item.date >= new Date().toLocaleDateString('en-CA', { timeZone: 'America/Phoenix' }));
+    const next = found.filter(item => item.date >= todayInPhoenix());
     const upcoming = next.slice(0, 4);
     const line = upcoming.length ?
       'Upcoming: ' + upcoming.map(item => friendlyDate(item.date)).join(' · ') :
