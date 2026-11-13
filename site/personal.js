@@ -272,12 +272,6 @@ function foldLine(line) {
   return parts.join('\r\n');
 }
 
-function nextIso(iso) {
-  const d = new Date(iso + 'T00:00:00Z');
-  d.setUTCDate(d.getUTCDate() + 1);
-  return d.toISOString().slice(0, 10);
-}
-
 function makeCalendar() {
   const events = [
     'BEGIN:VCALENDAR', 'VERSION:2.0',
@@ -290,13 +284,12 @@ function makeCalendar() {
   for (const entry of storedEvents) {
     for (const match of occurrences(entry)) {
       const start = match.date.replace(/-/g, '');
-      const end = nextIso(match.date).replace(/-/g, '');
       events.push(
         'BEGIN:VEVENT',
         'UID:' + entry.id + '-' + start + '@phoenix-telugu-personal-local',
         'DTSTAMP:' + timestamp,
-        'DTSTART;VALUE=DATE:' + start,
-        'DTEND;VALUE=DATE:' + end,
+        'DTSTART:' + start + 'T150000Z',
+        'DTEND:' + start + 'T160000Z',
         'SUMMARY:' + escapeIcs(entry.title),
         'DESCRIPTION:' + escapeIcs(
           match.maasam + ' Maasam; ' + match.paksham + ' Paksham; ' +

@@ -9,6 +9,7 @@ from telugu_panchangam.generate import default_feed_window, generate_feeds
 from telugu_panchangam.models.panchangam_day import Location
 
 from personal_tithi import generate_personal_feeds
+from normalize_timed_events import normalize_ics_directory
 
 CITY = "Phoenix"
 TIMEZONE = "America/Phoenix"
@@ -45,12 +46,18 @@ def main() -> None:
         output=OUTPUT,
     )
 
+    # Enforce Phoenix 08:00–09:00 as the default for every calendar feed,
+    # including festivals, observances, and optional personal ICS events.
+    counts = normalize_ics_directory(OUTPUT)
+
     feed_names = (
         "phoenix-drik.ics",
         "phoenix-drik-festivals.ics",
         "phoenix-drik-observances.ics",
     )
     for name in feed_names:
+        if name not in counts:
+            raise RuntimeError(f"Missing expected ICS feed: {name}")
         data = (OUTPUT / name).read_bytes()
         if not data.startswith(b"BEGIN:VCALENDAR") or b"END:VCALENDAR" not in data:
             raise RuntimeError(f"Invalid ICS: {name}")
@@ -58,7 +65,7 @@ def main() -> None:
 
     daily = (OUTPUT / feed_names[0]).read_bytes()
     count = daily.count(b"BEGIN:VEVENT")
-    if count != expected:
+    if count != expected or counts[feed_names[0]] != expected:
         raise RuntimeError(f"Expected {expected} daily events, found {count}")
     if b"Phoenix" not in daily:
         raise RuntimeError("Phoenix not present in calendar name")

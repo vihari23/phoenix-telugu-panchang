@@ -45,7 +45,9 @@ Example public opt-in configuration (not enabled by default):
 - Timezone: `America/Phoenix` — no DST
 - Lunar calendar: Telugu Amanta, Drik Ganita engine
 - Rolling date coverage: current month through month +17, regenerated monthly
-- Each day has one all-day event with tithi, nakshatra, yoga in the title; masam, paksha, timing details and festivals in the description
+- **Every event** in the public full Panchang, festivals, and observances ICS feeds is scheduled **8:00–9:00 AM Phoenix time**, never all-day. Optional published personal-tithi ICS events are normalized the same way.
+- Titles, descriptions, original event identifiers and Panchang details are preserved during timing normalization.
+- The daily event contains tithi, nakshatra and yoga in the title, with masam, paksha, timing details and festivals in the description. The 8:00–9:00 AM calendar slot is only for display, **not** the actual tithi or puja time.
 - ICS generation uses stable event UIDs so future refreshed events can be recognized
 - No private information or account tokens are needed to read the public feed
 
@@ -57,7 +59,7 @@ GitHub Actions `.github/workflows/publish.yml` runs when changes are pushed, man
 
 GitHub Pages must use **GitHub Actions** as its build source in Settings → Pages. The workflow installs dependencies, calculates Phoenix days, validates file structure and daily event count, and deploys files to Pages.
 
-The project does not yet support personalized annual recurrence by Telugu tithi.
+The private personal-date subscription is hosted separately and is not modified by these public-feed settings. The optional browser-only `personal.html` download also uses the 8:00–9:00 AM Phoenix time slot.
 
 ## License
 
