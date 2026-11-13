@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Telugu Tithi Dates | Phoenix Panchang</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, sans-serif; color: #17233b; background: #fbfaf6; }
+    * { box-sizing: border-box; }
+    body { margin: 0 auto; max-width: 800px; padding: 1.4rem 1rem 4rem; line-height: 1.55; }
+    a { color: #124c9b; }
+    h1 { font-size: 1.8rem; line-height: 1.2; }
+    h2 { font-size: 1.25rem; }
+    .panel { padding: 1.2rem; background: #fff; border: 1px solid #e3e2df; border-radius: 16px; margin: 1.1rem 0; }
+    .notice { border-left: 4px solid #ed8d20; background: #fff6e9; padding: .8rem 1rem; border-radius: 8px; }
+    .muted { color: #566177; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+    label { font-weight: 600; font-size: .92rem; display: block; }
+    input, select { display: block; width: 100%; margin-top: .3rem; padding: .7rem; font: inherit; border: 1px solid #b9c0cc; border-radius: 8px; background: #fff; }
+    button { border: 0; border-radius: 9px; background: #153e72; color: white; font: inherit; font-weight: 600; padding: .75rem 1rem; cursor: pointer; }
+    button.secondary { color: #153e72; background: #edf2fa; }
+    button.danger { color: #9d1919; background: #fff1f1; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .actions { display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 1rem; }
+    .record { padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+    .record:last-child { border: 0; }
+    .record strong { font-size: 1.08rem; }
+    .status { font-weight: 600; }
+    .small { font-size: .85rem; }
+    @media (max-width: 570px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <p><a href="./">← Phoenix Telugu Panchang</a></p>
+  <h1>My annual Telugu tithi events</h1>
+  <p class="muted">Create birthdays, anniversaries, and family observances that follow a Telugu lunar date instead of the same Gregorian date each year. Dates are calculated for Phoenix sunrise.</p>
+
+  <div class="notice">
+    <strong>Your privacy:</strong> Names and dates entered here are stored only in this browser, not uploaded to GitHub or any server. You can download an ICS file to import into Apple Calendar. <strong>Downloaded files do not update automatically</strong>; a private live subscription requires a separate authenticated service. A public GitHub-hosted personal feed is possible only if you explicitly approve publishing the event details.
+  </div>
+
+  <section class="panel">
+    <h2>Add a tithi event</h2>
+    <p class="muted small">If your original event date is within the published calendar window, choose the Gregorian date and tap “Use this date” to fill in its Telugu lunar details. Otherwise select the Telugu lunar month, fortnight, and tithi manually.</p>
+    <div class="grid">
+      <label>Event name
+        <input id="event-title" type="text" maxlength="100" placeholder="Birthday, anniversary, puja…" required>
+      </label>
+      <label>Original English date (optional)
+        <input id="english-date" type="date">
+      </label>
+    </div>
+    <div class="actions">
+      <button type="button" class="secondary" id="lookup-date">Use this date's Telugu tithi</button>
+    </div>
+    <p class="small muted" id="lookup-status" aria-live="polite"></p>
+    <div class="grid">
+      <label>Telugu lunar month (masam)
+        <select id="event-maasam"></select>
+      </label>
+      <label>Paksham
+        <select id="event-paksham">
+          <option value="Shukla">Shukla (waxing)</option>
+          <option value="Krishna">Krishna (waning)</option>
+        </select>
+      </label>
+      <label>Tithi
+        <select id="event-tithi"></select>
+      </label>
+      <label>Adhika Masam handling
+        <select id="event-adhika">
+          <option value="regular">Regular / Nija only (default)</option>
+          <option value="adhika">Adhika only</option>
+          <option value="both">Both when Adhika occurs</option>
+        </select>
+      </label>
+    </div>
+    <div class="actions">
+      <button id="add-event" type="button">Save personal event</button>
+    </div>
+    <p class="status small" id="form-status" role="status"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Saved lunar dates</h2>
+    <p class="muted small" id="range-status">Loading Phoenix calculation data…</p>
+    <div id="event-list"></div>
+    <div class="actions">
+      <button id="download-ics" type="button">Download my calendar (.ics)</button>
+      <button id="clear-events" type="button" class="danger">Clear my saved events</button>
+    </div>
+    <p class="muted small">After importing the file into Apple Calendar, return here and download an updated file for new years. To prevent duplicates when replacing imported events, delete the old imported calendar before importing a new one.</p>
+  </section>
+
+  <p class="muted small">Matches use the tithi prevailing at local sunrise. Consecutive sunrise dates with the same tithi are shown once; skipped tithis may have no matching date. Observances that follow madhyahna, pradosha, nishita or special regional rules should be verified separately. Source: <a href="https://github.com/socraticsurge/telugu-calendar-utilities">Astro Chaganti</a>.</p>
+  <script src="./personal.js" defer></script>
+</body>
+</html>

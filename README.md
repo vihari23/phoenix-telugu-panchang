@@ -14,6 +14,31 @@ The first feed includes the other two types of events; usually subscribe to **ju
 
 On iPhone, open Calendar → Calendars → Add Calendar → Add Subscription Calendar, paste the URL, and save the subscription to iCloud if offered. This is a **subscription**, not a one-time ICS import.
 
+## Personal annual Telugu tithi dates
+
+Visit https://vihari23.github.io/phoenix-telugu-panchang/personal.html to save birthdays, anniversaries and family puja dates by Telugu masam, paksha and sunrise tithi. Choose a civil date within the live data window to automatically fill in its lunar components, or enter them manually.
+
+**Privacy first:** the planner stores personal event details in your browser only. It displays upcoming occurrences using the published Phoenix date index and generates a **downloadable** `.ics` calendar. That download is a static import, **not** a live subscription. It does not automatically push event names or dates to Apple Calendar, GitHub, or the web.
+
+An optional public `phoenix-personal.ics` is generated monthly from `data/personal-events.json`. The committed configuration intentionally starts as `{"events": []}`, so the public feed contains **no personal events**. Add events there only after the owner explicitly understands and approves publication of their labels and dates; anyone with the feed URL can read them, and Git history retains past commits. The source uses local-sunrise tithi, regular/Nija month by default, and needs separate review for skipped tithis or alternate observance traditions.
+
+Example public opt-in configuration (not enabled by default):
+
+```json
+{
+  "events": [
+    {
+      "id": "example-observance",
+      "title": "Family observance",
+      "maasam": "Kartika",
+      "paksham": "Shukla",
+      "tithi": "Panchami",
+      "adhika_policy": "regular"
+    }
+  ]
+}
+```
+
 ## Details
 
 - Coordinates: Phoenix, AZ (33.4484, -112.0740), elevation approximately 331 m
